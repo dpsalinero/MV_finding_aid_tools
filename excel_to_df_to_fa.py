@@ -21,11 +21,20 @@ def process_file():
 
         sheet_names = data.sheet_names
 
-        collection_data = pd.read_excel(data, sheet_name=sheet_names[2])
+        collection_data = pd.read_excel(data, sheet_name=sheet_names[0], header=0, index_col=0, usecols=[1,2], skiprows=[0]).transpose()
+        print("Print 1: Print the index of the collection_data.\n")
+        print(collection_data.index)
+
+        print("Print 2: Print the column labels for the collection _data.\n")
+        print(collection_data.columns)
+
         box_data = pd.read_excel(data, sheet_name=sheet_names[1])
 
         collection_data = collection_data.fillna('')
         box_data = box_data.fillna('')
+
+        print("Print 3: Print the collection_data valuues as strings.\n")
+        print(collection_data.to_string())
 
         '''
         The following block iterates through the collection metadata
@@ -34,25 +43,35 @@ def process_file():
         input spreadsheet.
         '''
 
+        
+        #for index, row in collection_data.iterrows():
+        #   print(collection_data.loc[['Value',"<origination>"]])
+        # row = collection_data[0]
+        print("Print 4: Print values of tranposed rows of collection_data.\n")
         for index, row in collection_data.iterrows():
-                recordid = row['<recordid>']
-                repository = row['<repository>']
-                unititle = row["<unittitle>"]
-                origination = row["<origination>"]
-                unitdate = row["<unitdate>"]
-                geogname = row["<geogname>"]
-                abstract = row["<abstract>"]
-                physdesc = row["<physdesc>"]
-                scopecontent = row["<scopecontent>"]
-                index_terms = row["<index>"]
-                custodhist = row["<custodhist>"]
-                acqinfo = row["<acqinfo>"]
-                unitid = row["<unitid>"]
-                originalsloc = row["<originalsloc>"]
-                accessrestrict = row["<accessrestrict>"]
-                language = row["<languageset>"]
-                author = row["<author>"]
-                eventdatetime = row["<eventdatetime>"]
+          print(row['<recordid>'], row['<repository>'])
+        
+        #repository = collection_data.loc['<repository>']
+        
+        recordid = row['<recordid>']
+        repository = row['<repository>']
+        unititle = row["<unittitle>"]
+        origination = row["<origination>"]
+        unitdate = row["<unitdate>"]
+        geogname = row["<geogname>"]
+        abstract = row["<abstract>"]
+        physdesc = row["<physdesc>"]
+        scopecontent = row["<scopecontent>"]
+        index_terms = row["<index>"]
+        custodhist = row["<custodhist>"]
+        acqinfo = row["<acqinfo>"]
+        unitid = row["<unitid>"]
+        originalsloc = row["<originalsloc>"]
+        accessrestrict = row["<accessrestrict>"]
+        language = row["<languageset>"]
+        author = row["<author>"]
+        eventdatetime = row["<eventdatetime>"]
+        print(author)
 
         '''
         The following code iterates through the box content worksheet in the input spreadsheet
@@ -69,7 +88,7 @@ def process_file():
             else:
                 contents_dict[row["Box"]].append([row["Description"], row["Dates"], row["Container"], row["Condition"]])
 
-
+        print("Print 5: Process Box contents tab.\n")
         content_str = "<h3>(Item Description | Dates | Container | Condition)</h3>\n"
 
         for key in contents_dict.keys():
@@ -89,12 +108,14 @@ def process_file():
         The following code constructs the HTML document from the spreadsheet
         data. It then writes the HTML to a file.
         '''
-
+        print("Print 6: Process which logo image to use.\n")
         mvpl_img_url = "https://library.mountainview.gov/Project/Contents/Library/_gfx/cmn/mobile/mobile-logo.png"
 
         mvha_img_url = "https://www.mountainviewhistorical.org/wp-content/uploads/2022/09/mvha-logo-2023-header-1x-1024x164.png"
 
         institution = "mvpl" if custodhist == "MVPL" else "mvha"
+
+        print("Print 7: Write metadata to html_output.\n")
 
         html_output = f"<!DOCTYPE html>\n \
                                 <html lang=\"en\">\n \
@@ -139,6 +160,8 @@ def process_file():
                                     </body>\n \
                                 </html>\n"
 
+        
+        print("Print 8: Write output html lines.\n")
         with open(f"{unititle}.html", "w") as f:
             f.write(html_output)
 
