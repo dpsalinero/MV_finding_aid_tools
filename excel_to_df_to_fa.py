@@ -1,6 +1,7 @@
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import ttk
 import time
 
 
@@ -176,15 +177,17 @@ app = tk.Tk()
 
 app.title("MV Finding Aid Creation Tool")
 
+app.geometry("500x200")
+
 current_file = tk.StringVar()
 
-selected_file_label = tk.Label(app, text="No File Selected!")
+selected_file_label = ttk.Label(app, text="No File Selected!")
 
-load_file_btn = tk.Button(app, text="Load File", command=open_file)
+load_file_btn = ttk.Button(app, text="Load File", command=open_file)
 
-process_file_btn = tk.Button(app, text="Process File", command=process_file)
+process_file_btn = ttk.Button(app, text="Process File", command=process_file)
 
-progress_msg = tk.Label(app, text = "")
+progress_msg = ttk.Label(app, text = "")
 
 
 selected_file_label.grid(row=4, column=1, pady=10)
