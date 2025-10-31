@@ -84,12 +84,12 @@ def process_file():
 
         for index, row in box_data.iterrows():
             if row["Box"] not in contents_dict.keys():
-                contents_dict[row["Box"]] = [[row["Description"], row["Dates"], row["Container"], row["Condition"]]]
+                contents_dict[row["Box"]] = [[row["Description"], row["Dates"], row["Container"], row["Condition"], row["Donor"], row["Accession Date"]]]
             else:
-                contents_dict[row["Box"]].append([row["Description"], row["Dates"], row["Container"], row["Condition"]])
+                contents_dict[row["Box"]].append([row["Description"], row["Dates"], row["Container"], row["Condition"], row["Donor"], row["Accession Date"]])
 
         print("Print 5: Process Box contents tab.\n")
-        content_str = "<h3>(Item Description | Dates | Container | Condition)</h3>\n"
+        content_str = "<h3>(Item Description | Dates | Container | Condition | Donor | Accession Date)</h3>\n"
 
         for key in contents_dict.keys():
             content_str += f"<h3>{key}</h3>\n \
